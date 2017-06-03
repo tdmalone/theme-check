@@ -26,33 +26,6 @@ class AdminMenu implements themecheck {
 			}
 		}
 
-
-// check for add_admin_page's, except for add_theme_page
-// Note to TGMPA: Stop trying to bypass theme check. 
-
-		$checks = array(
-			'/(?<!function)[^_>:](add_[^_\'",();]+?_page)/' => __( 'Themes should use <strong>add_theme_page()</strong> for adding admin pages.', 'theme-check' )
-			);
-
-
-		foreach ( $php_files as $php_key => $phpfile ) {
-			foreach ( $checks as $key => $check ) {
-				checkcount();
-				if ( preg_match_all( $key, $phpfile, $matches ) ) {
-					foreach ($matches[1] as $match) {
-						if ($match == 'add_theme_page') {
-							continue;
-						}
-						$filename = tc_filename( $php_key );
-						$error = ltrim( rtrim( $match, '(' ) );
-						$grep = tc_grep( $error, $php_key );
-						$this->error[] = sprintf('<span class="tc-lead tc-required">'.__( 'REQUIRED', 'theme-check' ) .'</span>: <strong>%1$s</strong>. %2$s%3$s', $filename, $check, $grep);
-						$ret = false;
-					}
-				}
-			}
-		}
-
 		return $ret;
 	}
 
