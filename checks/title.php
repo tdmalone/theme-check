@@ -22,33 +22,11 @@ class Title_Checks implements themecheck {
 			$ret = false;
 		}
 
-		// Look for <title> and </title> tags.
-		checkcount();
-		if ( ( 0 <= strpos( $php, '<title>' ) || 0 <= strpos( $php, '</title>' ) ) && !$titletag  ) {
-			$this->error[] = '<span class="tc-lead tc-required">' . __( 'REQUIRED', 'theme-check').'</span>: ' . __( 'The theme must not used the <strong>&lt;title&gt;</strong> tags.', 'theme-check' );
-			$ret = false;
-		}
-
 		// Check whether there is a call to wp_title()
 		checkcount();
 		if ( 0 <= strpos( $php, 'wp_title(' ) && !$titletag ) {
 			$this->error[] = '<span class="tc-lead tc-required">' . __( 'REQUIRED', 'theme-check').'</span>: ' . __( 'The theme must not call to <strong>wp_title()</strong>.', 'theme-check' );
 			$ret = false;
-		}
-
-		//Check whether the the <title> tag contains something besides a call to wp_title()
-		checkcount();
-
-		foreach ( $php_files as $file_path => $file_content ) {
-			// Look for anything that looks like <svg>...</svg> and exclude it (inline svg's have titles too)
-			$file_content = preg_replace('/<svg.*>.*<\/svg>/s', '', $file_content);
-
-			// First looks ahead to see of there's <title>...</title>
-			// Then performs a negative look ahead for <title> wp_title(...); </title>
-			if ( preg_match( '/(?=<title>(.*)<\/title>)(?!<title>\s*<\?php\s*wp_title\([^\)]*\);?\s*\?>\s*<\/title>)/s', $file_content ) ) {
-				$this->error[] = '<span class="tc-lead tc-required">' . __( 'REQUIRED', 'theme-check').'</span>: ' . __( 'The <strong>&lt;title&gt;</strong> tags can only contain a call to <strong>wp_title()</strong>. Use the  <strong>wp_title filter</strong> to modify the output', 'theme-check' );
-				$ret = false;
-			}
 		}
 
 		return $ret;
