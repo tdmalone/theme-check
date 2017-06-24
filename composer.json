@@ -1,0 +1,23 @@
+{
+	"name": "wordpress/theme-check",
+	"type": "wordpress-plugin",
+	"description": "Theme Check",
+	"authors": [{
+		"name": "WordPress.org",
+		"email": "themes@wordpress.org"
+	}],
+	"repositories": [
+	        {
+	            "type": "vcs",
+	            "url": "https://github.com/WPTRT/WordPress-Coding-Standards"
+	        }
+	    ],
+	"require": {
+		"wp-coding-standards/wpcs": "dev-feature/theme-review-sniffs",
+		"wimg/php-compatibility": "~7.1"
+	},
+	"scripts": {
+		"post-update-cmd": "rm -rf vendor/squizlabs/php_codesniffer/CodeSniffer/Standards/PHPCompatibility; cp -rp vendor/wimg/php-compatibility vendor/squizlabs/php_codesniffer/CodeSniffer/Standards/PHPCompatibility",
+		"post-install-cmd": "rm -rf vendor/squizlabs/php_codesniffer/CodeSniffer/Standards/PHPCompatibility; cp -rp vendor/wimg/php-compatibility vendor/squizlabs/php_codesniffer/CodeSniffer/Standards/PHPCompatibility"
+	}
+}
