@@ -166,7 +166,6 @@ function listdir( $dir ) {
 
 	$exclusions = [
 		'.git/',
-		'coverage/',
 		'dist/',
 		'node_modules/',
 		'vendor/',

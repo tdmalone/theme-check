@@ -20,6 +20,7 @@ Manually:
 
 * Download [this ZIP file](https://github.com/tdmalone/theme-check-tdmalone/archive/master.zip)
 * Extract it into your `wp-content/plugins` directory
+* Rename the plugin directory - if you like - to remove the `-master` from it (but don't set it just to `theme-check`, unless you want updates from the WordPress plugin repo to override it with the original plugin)
 * Activate the plugin on your Plugins page in the WordPress admin
 
 ## Usage
@@ -36,7 +37,7 @@ You can modify these exclusions if you wish, with a filter in your theme:
       $exclusions[] = 'some-directory/';
 
       // Remove a directory.
-      unset( $exclusions[ array_keys( $exclusions, 'node_modules/' ) ] );
+      unset( $exclusions[ array_keys( $exclusions, 'node_modules/' )[0] ] );
 
       return $exclusions;
 
