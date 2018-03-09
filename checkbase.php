@@ -164,8 +164,30 @@ function listdir( $dir ) {
 	$dir_iterator = new RecursiveDirectoryIterator( $dir );
 	$iterator = new RecursiveIteratorIterator($dir_iterator, RecursiveIteratorIterator::SELF_FIRST);
 
+	$excluded_dirs = [
+		'node_modules',
+		'vendor',
+	];
+
+	$excluded_dirs = apply_filters( 'tm_theme_check_excluded_dirs', $excluded_dirs );
+
+	$theme_root = get_stylesheet_directory();
+
 	foreach ($iterator as $file) {
-    	array_push( $files, $file->getPathname() );
+
+			$pathname = $file->getPathname();
+
+			if ( count( $excluded_dirs ) ) {
+				foreach ( $excluded_dirs as $excluded_dir ) {
+					$excluded_dir = $theme_root . DIRECTORY_SEPARATOR. trim( $excluded_dir, '\\/' ) . DIRECTORY_SEPARATOR;
+					if ( strstr( $pathname, $excluded_dir ) ) {
+						continue 2;
+					}
+				}
+			}
+
+			array_push( $files, $pathname );
+
 	}
 	return $files;
 }
