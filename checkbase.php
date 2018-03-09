@@ -164,12 +164,16 @@ function listdir( $dir ) {
 	$dir_iterator = new RecursiveDirectoryIterator( $dir );
 	$iterator = new RecursiveIteratorIterator($dir_iterator, RecursiveIteratorIterator::SELF_FIRST);
 
-	$excluded_dirs = [
-		'node_modules',
-		'vendor',
+	$exclusions = [
+		'.git/',
+		'coverage/',
+		'dist/',
+		'node_modules/',
+		'vendor/',
+		'.gitignore', // Including this because without it, checks/directories.php detects .git!
 	];
 
-	$excluded_dirs = apply_filters( 'tm_theme_check_excluded_dirs', $excluded_dirs );
+	$exclusions = apply_filters( 'tm_theme_check_exclusions', $exclusions );
 
 	$theme_root = get_stylesheet_directory();
 
@@ -177,10 +181,10 @@ function listdir( $dir ) {
 
 			$pathname = $file->getPathname();
 
-			if ( count( $excluded_dirs ) ) {
-				foreach ( $excluded_dirs as $excluded_dir ) {
-					$excluded_dir = $theme_root . DIRECTORY_SEPARATOR. trim( $excluded_dir, '\\/' ) . DIRECTORY_SEPARATOR;
-					if ( strstr( $pathname, $excluded_dir ) ) {
+			if ( count( $exclusions ) ) {
+				foreach ( $exclusions as $exclusion ) {
+					$exclusion = $theme_root . DIRECTORY_SEPARATOR. trim( $exclusion, '\\/' );
+					if ( strstr( $pathname, $exclusion ) ) {
 						continue 2;
 					}
 				}
