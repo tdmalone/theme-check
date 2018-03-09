@@ -1,10 +1,10 @@
 <?php
 /*
-Plugin Name: Theme Check
-Plugin URI: http://ottopress.com/wordpress-plugins/theme-check/
-Description: A simple and easy way to test your theme for all the latest WordPress standards and practices. A great theme development tool!
-Author: Otto42, pross
-Author URI: http://ottopress.com
+Plugin Name: Theme Check with Exclusions
+Plugin URI: https://github.com/tdmalone/theme-check
+Description: A simple and easy way to test your theme for all the latest WordPress standards and practices. A great theme development tool! Includes the ability to exclude certain files and directories from checks.
+Author: Otto42, pross, Tim Malone
+Author URI: https://tm.id.au
 Version: 20160523.1
 Text Domain: theme-check
 License: GPLv2

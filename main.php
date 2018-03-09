@@ -76,7 +76,7 @@ function check_main( $theme ) {
 		 }
 		echo '</div><!-- .theme-info-->';
 
-		$plugins = get_plugins( '/theme-check' );
+		$plugins = get_plugins( '/' . basename( __DIR__ ) );
 		$version = explode( '.', $plugins['theme-check.php']['Version'] );
 		echo '<p>' . sprintf(
 			__(' Running %1$s tests against %2$s using Guidelines Version: %3$s Plugin revision: %4$s', 'theme-check'),

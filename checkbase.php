@@ -164,8 +164,33 @@ function listdir( $dir ) {
 	$dir_iterator = new RecursiveDirectoryIterator( $dir );
 	$iterator = new RecursiveIteratorIterator($dir_iterator, RecursiveIteratorIterator::SELF_FIRST);
 
+	$exclusions = [
+		'.git/',
+		'dist/',
+		'node_modules/',
+		'vendor/',
+		'.gitignore', // Including this because without it, checks/directories.php detects .git!
+	];
+
+	$exclusions = apply_filters( 'tm_theme_check_exclusions', $exclusions );
+
+	$theme_root = get_stylesheet_directory();
+
 	foreach ($iterator as $file) {
-    	array_push( $files, $file->getPathname() );
+
+			$pathname = $file->getPathname();
+
+			if ( count( $exclusions ) ) {
+				foreach ( $exclusions as $exclusion ) {
+					$exclusion = $theme_root . DIRECTORY_SEPARATOR. trim( $exclusion, '\\/' );
+					if ( strstr( $pathname, $exclusion ) ) {
+						continue 2;
+					}
+				}
+			}
+
+			array_push( $files, $pathname );
+
 	}
 	return $files;
 }
